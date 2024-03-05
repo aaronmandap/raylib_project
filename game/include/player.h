@@ -12,3 +12,4 @@ typedef struct {
 } playerInfo;
 
 void updatePlayer(playerInfo *player, float delta);
+void initPlayer(playerInfo *player);

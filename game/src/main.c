@@ -2,8 +2,6 @@
 #include "player.h"
 #include "environment.h"
 
-#define MAX_ENV_ELEMENTS 5
-
 typedef enum {
     LOGO, 
     TITLE, 
@@ -11,11 +9,6 @@ typedef enum {
     ENDING
 } gameScreen;
 
-typedef struct {
-    Rectangle rect;
-    int blocking;
-    Color color;
-} envInfo;
 
 int main() {
     const int screenWidth = 800;
@@ -26,18 +19,8 @@ int main() {
     gameScreen screen = LOGO;
 
     playerInfo player = {0};
-    player.position = (Vector2){400, 280};
-    player.speed = 0;
-    player.canJump = false;
+    initPlayer(&player);
 
-    // envInfo environment[MAX_ENV_ELEMENTS] = {
-    //     {{0, 0, 1000, 400}, 0, LIGHTGRAY}, 
-    //     {{0, 400, 1000, 200}, 1, GRAY}, 
-    //     {{300, 200, 400, 10}, 1, GRAY}, 
-    //     {{250, 300, 100, 10}, 1, GRAY}, 
-    //     {{650, 300, 100, 10}, 1, GRAY}
-    // }; 
-    
     unsigned int framesCounter = 0;
     // int gameResult = -1;
     bool gamePaused = false; 

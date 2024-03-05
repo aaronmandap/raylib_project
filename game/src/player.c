@@ -1,7 +1,11 @@
 #include "raylib.h"
 #include "player.h"
 
-playerInfo player;
+void initPlayer(playerInfo *player) {
+    player->position = (Vector2){400, 280};
+    player->speed = 0;
+    player->canJump = false;
+}
 
 void updatePlayer(playerInfo *player, float delta) {
     if (IsKeyDown(KEY_LEFT)) 

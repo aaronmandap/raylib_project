@@ -1,4 +1,8 @@
 #include "raylib.h"
+#include "player.h"
+#include "environment.h"
+
+#define MAX_ENV_ELEMENTS 5
 
 typedef enum {
     LOGO, 
@@ -6,12 +10,6 @@ typedef enum {
     GAMEPLAY, 
     ENDING
 } gameScreen;
-
-typedef struct {
-    Vector2 position;
-    float speed;
-    bool canJump;
-} playerInfo;
 
 typedef struct {
     Rectangle rect;
@@ -27,18 +25,29 @@ int main() {
 
     gameScreen screen = LOGO;
 
-    int framesCounter = 0;
-    // int gameResult = -1;
-    bool gamePaused = false; 
-
     playerInfo player = {0};
     player.position = (Vector2){400, 280};
     player.speed = 0;
     player.canJump = false;
 
+    // envInfo environment[MAX_ENV_ELEMENTS] = {
+    //     {{0, 0, 1000, 400}, 0, LIGHTGRAY}, 
+    //     {{0, 400, 1000, 200}, 1, GRAY}, 
+    //     {{300, 200, 400, 10}, 1, GRAY}, 
+    //     {{250, 300, 100, 10}, 1, GRAY}, 
+    //     {{650, 300, 100, 10}, 1, GRAY}
+    // }; 
+    
+    unsigned int framesCounter = 0;
+    // int gameResult = -1;
+    bool gamePaused = false; 
+
     SetTargetFPS(60);
 
     while (!WindowShouldClose()) {
+
+        float deltaTime = GetFrameTime();
+
         switch (screen) {
             case LOGO:
                 framesCounter++;
@@ -53,9 +62,7 @@ int main() {
                     screen = GAMEPLAY;
                 break;
             case GAMEPLAY:
-                if (!gamePaused) {
-                    // TODO: Gameplay logic
-                }
+                updatePlayer(&player, deltaTime);
                 if (IsKeyPressed(KEY_ENTER)) 
                     screen = ENDING;
                 break;
@@ -78,22 +85,19 @@ int main() {
                 DrawText("WAIT for 3 seconds...", 290, 220, 20, GRAY);
                 break;
             case TITLE:
-                DrawRectangle(0, 0, screenWidth, screenHeight, GREEN);
-                DrawText("TITLE SCREEN", 20, 20, 40, DARKGREEN);
-                DrawText("PRESS ENTER or TAP to JUMP to GAMEPLAY SCREEN", 120, 220, 20, DARKGREEN);
+                DrawText("TITLE SCREEN", 20, 20, 40, LIGHTGRAY);
+                DrawText("PRESS ENTER or TAP to JUMP to GAMEPLAY SCREEN", 120, 220, 20, GRAY);
                 break;
             case GAMEPLAY:
                 if (!gamePaused) {
-                    // TODO: Gameplay logic
-                    DrawRectangle(0, 0, screenWidth, screenHeight, PURPLE);
-                    DrawText("GAMEPLAY SCREEN", 20, 20, 40, MAROON);
-                    DrawText("PRESS ENTER or TAP to JUMP to ENDING SCREEN", 130, 220, 20, MAROON);
+                    DrawRectangleRec((Rectangle){player.position.x - 20, player.position.y -40, 40, 40}, RED);
+                    DrawText("GAMEPLAY SCREEN", 20, 20, 40, LIGHTGRAY);
+                    DrawText("PRESS ENTER or TAP to JUMP to ENDING SCREEN", 130, 220, 20, GRAY);
                 }
                 break;
             case ENDING:
-                DrawRectangle(0, 0, screenWidth, screenHeight, BLUE);
-                DrawText("ENDING SCREEN", 20, 20, 40, DARKBLUE);
-                DrawText("PRESS ENTER or TAP to RETURN to TITLE SCREEN", 120, 220, 20, DARKBLUE); 
+                DrawText("ENDING SCREEN", 20, 20, 40, LIGHTGRAY);
+                DrawText("PRESS ENTER or TAP to RETURN to TITLE SCREEN", 120, 220, 20, GRAY); 
                 break;
             default: 
                 break;

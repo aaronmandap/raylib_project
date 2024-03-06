@@ -1,6 +1,7 @@
 #include "raylib.h"
 #include "player.h"
-#include "environment.h"
+#include "platforms.h"
+#include "collision.h"
 
 typedef enum {
     LOGO, 
@@ -20,6 +21,8 @@ int main() {
 
     playerInfo player = {0};
     initPlayer(&player);
+    platformsInfo platforms[MAX_PLATFORM_COUNT] = {0};
+    initPlatforms(platforms);
 
     unsigned int framesCounter = 0;
     // int gameResult = -1;
@@ -46,6 +49,7 @@ int main() {
                 break;
             case GAMEPLAY:
                 updatePlayer(&player, deltaTime);
+                platformCollision(&player, platforms, deltaTime);
                 if (IsKeyPressed(KEY_ENTER)) 
                     screen = ENDING;
                 break;
@@ -73,6 +77,9 @@ int main() {
                 break;
             case GAMEPLAY:
                 if (!gamePaused) {
+                    for (int i = 0; i < MAX_PLATFORM_COUNT; i++) {
+                        DrawRectangleRec(platforms[i].rect, platforms[i].color);
+                    }
                     DrawRectangleRec((Rectangle){player.position.x - 20, player.position.y -40, 40, 40}, RED);
                     DrawText("GAMEPLAY SCREEN", 20, 20, 40, LIGHTGRAY);
                     DrawText("PRESS ENTER or TAP to JUMP to ENDING SCREEN", 130, 220, 20, GRAY);

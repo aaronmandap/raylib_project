@@ -1,22 +1,36 @@
 #include "raylib.h"
 #include "platforms.h"
 
-void initPlatforms(platformsInfo platforms[]) {
-    platforms[0].rect = (Rectangle){0, 0, 1000, 400};
-    platforms[0].blocking = 0;
-    platforms[0].color = LIGHTGRAY;
 
-    platforms[1].rect = (Rectangle){0, 400, 1000, 200};
-    platforms[1].blocking = 1;
-    platforms[1].color = GRAY;
-    
 
-    // platformsInfo platforms[] = {
-    //     {{0, 0, 1000, 400}, 0, LIGHTGRAY}, 
-    //     {{0, 400, 1000, 200}, 1, GRAY}, 
-    //     {{300, 200, 400, 10}, 1, GRAY}, 
-    //     {{250, 300, 100, 10}, 1, GRAY}, 
-    //     {{650, 300, 100, 10}, 1, GRAY}
-    // };
+int firstMap[MAP_HEIGHT][MAP_WIDTH] = {
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+};
+
+void drawPlatforms() {
+    for (int y = 0; y < MAP_HEIGHT; y++) {
+        DrawLine(0, y * TILE_HEIGHT, 640, y * TILE_WIDTH, LIGHTGRAY);
+        for (int x = 0; x < MAP_WIDTH; x++) {
+            DrawLine(x * TILE_WIDTH, 0, x * TILE_HEIGHT, 480, LIGHTGRAY);
+            if (firstMap[y][x] == 1) {
+                DrawRectangle(x * TILE_WIDTH, y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT, GRAY);
+            }
+        }
+    }
 }
+
 

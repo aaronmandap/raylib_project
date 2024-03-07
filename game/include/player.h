@@ -1,15 +1,16 @@
 #include "raylib.h"
-#include <stdio.h>
+// #include "platforms.h"
 
 #define GRAVITY 400
 #define PLAYER_JUMP_SPD 350.0f
 #define PLAYER_HOR_SPD 200.0f 
 
 typedef struct {
-    Vector2 position;
+    Rectangle playerRec;
     float speed;
     bool canJump;
 } playerInfo;
 
 void updatePlayer(playerInfo *player, float delta);
-void initPlayer(playerInfo *player);
+void startPlayer(playerInfo *player);
+void drawPlayer(playerInfo *player);

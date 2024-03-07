@@ -12,21 +12,18 @@ typedef enum {
 
 
 int main() {
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int screenWidth = 640;
+    const int screenHeight = 480;
 
     InitWindow(screenWidth, screenHeight, "platformer_v2");
 
     gameScreen screen = LOGO;
 
     playerInfo player = {0};
-    initPlayer(&player);
-    platformsInfo platforms[MAX_PLATFORM_COUNT] = {0};
-    initPlatforms(platforms);
+    startPlayer(&player);
+    // int blankMap[MAP_WIDTH][MAP_HEIGHT] = {0};
 
-    unsigned int framesCounter = 0;
-    // int gameResult = -1;
-    bool gamePaused = false; 
+    int framesCounter = 0;
 
     SetTargetFPS(60);
 
@@ -49,7 +46,9 @@ int main() {
                 break;
             case GAMEPLAY:
                 updatePlayer(&player, deltaTime);
-                platformCollision(&player, platforms, deltaTime);
+                if (playerTileCollide(&player))
+                    screen = ENDING;
+                // platformCollision(&player, &platforms, deltaTime);
                 if (IsKeyPressed(KEY_ENTER)) 
                     screen = ENDING;
                 break;
@@ -76,14 +75,10 @@ int main() {
                 DrawText("PRESS ENTER or TAP to JUMP to GAMEPLAY SCREEN", 120, 220, 20, GRAY);
                 break;
             case GAMEPLAY:
-                if (!gamePaused) {
-                    for (int i = 0; i < MAX_PLATFORM_COUNT; i++) {
-                        DrawRectangleRec(platforms[i].rect, platforms[i].color);
-                    }
-                    DrawRectangleRec((Rectangle){player.position.x - 20, player.position.y -40, 40, 40}, RED);
+                    drawPlatforms();
+                    drawPlayer(&player);
                     DrawText("GAMEPLAY SCREEN", 20, 20, 40, LIGHTGRAY);
                     DrawText("PRESS ENTER or TAP to JUMP to ENDING SCREEN", 130, 220, 20, GRAY);
-                }
                 break;
             case ENDING:
                 DrawText("ENDING SCREEN", 20, 20, 40, LIGHTGRAY);

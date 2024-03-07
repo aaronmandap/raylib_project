@@ -9,12 +9,20 @@ void startPlayer(playerInfo *player) {
 }
 
 void updatePlayer(playerInfo *player, float delta) {
-    if (IsKeyDown(KEY_LEFT)) 
+    if (IsKeyDown(KEY_LEFT))
         player->playerRec.x -= PLAYER_HOR_SPD * delta;
     if (IsKeyDown(KEY_RIGHT)) 
         player->playerRec.x += PLAYER_HOR_SPD * delta;
-    // if (playerTileCollide(player))
-    //     player->speed = 0.0f;
+    if (IsKeyDown(KEY_UP)) 
+        player->playerRec.y -= PLAYER_VER_SPD * delta;
+    if (IsKeyDown(KEY_DOWN)) 
+        player->playerRec.y += PLAYER_VER_SPD * delta;
+
+    if (playerTileCollide(player)) {
+        BeginDrawing();
+        DrawText("Collision!", 640/2, 480/2, 40, RED);
+        EndDrawing();
+    }
 }
 
 void drawPlayer(playerInfo *player) {

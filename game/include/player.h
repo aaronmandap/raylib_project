@@ -4,6 +4,7 @@
 #define GRAVITY 400
 #define PLAYER_JUMP_SPD 350.0f
 #define PLAYER_HOR_SPD 200.0f 
+#define PLAYER_VER_SPD 200.0f 
 
 typedef struct {
     Rectangle playerRec;

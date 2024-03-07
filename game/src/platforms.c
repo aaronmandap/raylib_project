@@ -1,8 +1,6 @@
 #include "raylib.h"
 #include "platforms.h"
 
-
-
 int firstMap[MAP_HEIGHT][MAP_WIDTH] = {
     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},

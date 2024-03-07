@@ -46,8 +46,8 @@ int main() {
                 break;
             case GAMEPLAY:
                 updatePlayer(&player, deltaTime);
-                if (playerTileCollide(&player))
-                    screen = ENDING;
+                // if (playerTileCollide(&player))
+                //     screen = ENDING;
                 // platformCollision(&player, &platforms, deltaTime);
                 if (IsKeyPressed(KEY_ENTER)) 
                     screen = ENDING;

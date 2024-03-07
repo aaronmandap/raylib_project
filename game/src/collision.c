@@ -6,26 +6,28 @@
 bool playerTileCollide(playerInfo *player) {
     int currentPlayerX = player->playerRec.x / TILE_WIDTH;
     int currentPlayerY = player->playerRec.y / TILE_HEIGHT;
-    for (int belowAbove = currentPlayerY - 1; belowAbove <= currentPlayerY + 1; belowAbove++) {//Note that the - and + are to be set differently with differently sized player
+
+    for (int belowAbove = currentPlayerY - 1; belowAbove <= currentPlayerY + 1; belowAbove++) {
         for (int leftRight = currentPlayerX - 1; leftRight <= currentPlayerX + 1; leftRight++) {
             if (leftRight >= 0 && leftRight < MAP_WIDTH && belowAbove >= 0 && belowAbove < MAP_HEIGHT) {
                 if (firstMap[belowAbove][leftRight] == 1){
                     int currentTileX = (leftRight) * TILE_WIDTH;
                     int currentTileY = (belowAbove) * TILE_HEIGHT;
-                    if (rectsoverlap(player, currentTileX, currentTileY, TILE_WIDTH, TILE_HEIGHT)) {
+                    if (checkCollision(player, currentTileX, currentTileY)) {
                         return true;
                     }
                 }
             }
         }
     }
+
     return false;
 }
 
-bool rectsoverlap(playerInfo *player, int x2,int y2,int w2,int h2){
-    if(player->playerRec.x >= (x2 + w2) || (player->playerRec.x + player->playerRec.width) <= x2) 
+bool checkCollision(playerInfo *player, int currentTileX, int currentTileY){
+    if(player->playerRec.x >= (currentTileX + TILE_WIDTH) || (player->playerRec.x + player->playerRec.width) <= currentTileX) 
         return false;
-    if(player->playerRec.y >= (y2 + h2) || (player->playerRec.y + player->playerRec.height) <= y2) 
+    if(player->playerRec.y >= (currentTileY + TILE_HEIGHT) || (player->playerRec.y + player->playerRec.height) <= currentTileY) 
        return false;
 
     return true;

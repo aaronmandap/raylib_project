@@ -3,9 +3,9 @@
 #include "platforms.h"
 #include "collision.h"
 
-bool playerTileCollide(playerInfo *player) {
-    int currentPlayerX = player->playerRec.x / TILE_WIDTH;
-    int currentPlayerY = player->playerRec.y / TILE_HEIGHT;
+bool playerTileCollide(playerInfo *player, int offsetX, int offsetY) {
+    int currentPlayerX = (player->playerRec.x + offsetX) / TILE_WIDTH;
+    int currentPlayerY = (player->playerRec.y + offsetY) / TILE_HEIGHT;
 
     for (int belowAbove = currentPlayerY - 1; belowAbove <= currentPlayerY + 1; belowAbove++) {
         for (int leftRight = currentPlayerX - 1; leftRight <= currentPlayerX + 1; leftRight++) {
@@ -13,7 +13,7 @@ bool playerTileCollide(playerInfo *player) {
                 if (firstMap[belowAbove][leftRight] == 1){
                     int currentTileX = (leftRight) * TILE_WIDTH;
                     int currentTileY = (belowAbove) * TILE_HEIGHT;
-                    if (checkCollision(player, currentTileX, currentTileY)) {
+                    if (checkCollision(player, offsetX, offsetY, currentTileX, currentTileY)) {
                         return true;
                     }
                 }
@@ -24,11 +24,11 @@ bool playerTileCollide(playerInfo *player) {
     return false;
 }
 
-bool checkCollision(playerInfo *player, int currentTileX, int currentTileY){
-    if(player->playerRec.x >= (currentTileX + TILE_WIDTH) || (player->playerRec.x + player->playerRec.width) <= currentTileX) 
+bool checkCollision(playerInfo *player, int offsetX, int offsetY, int currentTileX, int currentTileY){
+    if(player->playerRec.x + offsetX >= (currentTileX + TILE_WIDTH) || (player->playerRec.x + offsetX + player->playerRec.width) <= currentTileX) 
         return false;
-    if(player->playerRec.y >= (currentTileY + TILE_HEIGHT) || (player->playerRec.y + player->playerRec.height) <= currentTileY) 
-       return false;
+    if(player->playerRec.y + offsetY >= (currentTileY + TILE_HEIGHT) || (player->playerRec.y + offsetY + player->playerRec.height) <= currentTileY) 
+        return false;
 
     return true;
 }

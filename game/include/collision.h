@@ -1,7 +1,9 @@
 #include "raylib.h"
-// #include "platforms.h"
 
-// extern int firstMap[MAP_HEIGHT][MAP_WIDTH];
+typedef struct {
+    float rightTile;
+    float leftTile;
+} tilePosition;
 
-bool playerTileCollide(playerInfo *player);
-bool checkCollision(playerInfo *player, int currentTileX, int currentTileY);
+bool playerTileCollide(playerInfo *player, int offsetX, int offsetY);
+bool checkCollision(playerInfo *player, int offsetX, int offsetY, int currentTileX, int currentTileY);

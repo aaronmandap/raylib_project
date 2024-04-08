@@ -17,7 +17,7 @@ int main() {
 
     InitWindow(screenWidth, screenHeight, "platformer_v2");
 
-    gameScreen screen = LOGO;
+    gameScreen screen = GAMEPLAY;
 
     playerInfo player = {0};
     startPlayer(&player);
@@ -75,10 +75,11 @@ int main() {
                 DrawText("PRESS ENTER or TAP to JUMP to GAMEPLAY SCREEN", 120, 220, 20, GRAY);
                 break;
             case GAMEPLAY:
-                    drawPlatforms();
-                    drawPlayer(&player);
-                    DrawText("GAMEPLAY SCREEN", 20, 20, 40, LIGHTGRAY);
-                    DrawText("PRESS ENTER or TAP to JUMP to ENDING SCREEN", 130, 220, 20, GRAY);
+                drawPlatforms();
+                drawPlayer(&player);
+                // updatePlayer(&player, deltaTime);
+                DrawText("GAMEPLAY SCREEN", 20, 20, 40, LIGHTGRAY);
+                DrawText("PRESS ENTER or TAP to JUMP to ENDING SCREEN", 130, 220, 20, GRAY);
                 break;
             case ENDING:
                 DrawText("ENDING SCREEN", 20, 20, 40, LIGHTGRAY);

@@ -2,6 +2,7 @@
 #include "player.h"
 #include "collision.h"
 #include "platforms.h"
+#include "math.h"
 
 void startPlayer(playerInfo *player) {
     player->playerRec = (Rectangle){400, 280, 32, 32};
@@ -16,7 +17,7 @@ int flag = 0;
 void updatePlayer(playerInfo *player, float delta) {
     if (IsKeyDown(KEY_RIGHT)) {
         if (playerTileCollide(player, 1, 0)) {
-            rightTile = (int)(player->playerRec.x) + player->playerRec.width;
+            rightTile = floor(player->playerRec.x) + player->playerRec.width;
             if (rightTile % TILE_WIDTH != 0 && (player->playerRec.x + player->playerRec.width) <= rightTile) {
                 rightTile -= rightTile % TILE_WIDTH;
             }
@@ -30,7 +31,7 @@ void updatePlayer(playerInfo *player, float delta) {
     }
     else if (IsKeyDown(KEY_LEFT)) {
         if (playerTileCollide(player, -1, 0)) {
-            leftTile = (int)(player->playerRec.x);
+            leftTile = floor(player->playerRec.x);
             if (leftTile % TILE_WIDTH != 0 && player->playerRec.x >= leftTile) {
                 leftTile -= (leftTile % TILE_WIDTH) - TILE_WIDTH;
             }

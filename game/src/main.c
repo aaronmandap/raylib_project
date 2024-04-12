@@ -21,11 +21,10 @@ int main() {
 
     playerInfo player = {0};
     startPlayer(&player);
-    // int blankMap[MAP_WIDTH][MAP_HEIGHT] = {0};
 
     int framesCounter = 0;
 
-    SetTargetFPS(60);
+    SetTargetFPS(30);
 
     while (!WindowShouldClose()) {
 
@@ -46,9 +45,6 @@ int main() {
                 break;
             case GAMEPLAY:
                 updatePlayer(&player, deltaTime);
-                // if (playerTileCollide(&player))
-                //     screen = ENDING;
-                // platformCollision(&player, &platforms, deltaTime);
                 if (IsKeyPressed(KEY_ENTER)) 
                     screen = ENDING;
                 break;
@@ -75,9 +71,8 @@ int main() {
                 DrawText("PRESS ENTER or TAP to JUMP to GAMEPLAY SCREEN", 120, 220, 20, GRAY);
                 break;
             case GAMEPLAY:
-                drawPlatforms();
                 drawPlayer(&player);
-                // updatePlayer(&player, deltaTime);
+                drawPlatforms();
                 DrawText("GAMEPLAY SCREEN", 20, 20, 40, LIGHTGRAY);
                 DrawText("PRESS ENTER or TAP to JUMP to ENDING SCREEN", 130, 220, 20, GRAY);
                 break;

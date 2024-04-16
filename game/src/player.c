@@ -10,20 +10,36 @@ void startPlayer(playerInfo *player) {
     player->canJump = false;
 }
 
-int rightTile;
-int leftTile;
-int flag = 0;
+void rectifyPosition(float *playerPosition, float *playerSize, char axis, int sign) {
+    int tileSize = (axis == 'x') ? TILE_WIDTH : TILE_HEIGHT;
+    int tileBorder = 0;
+
+    if (sign == 1) {
+        tileBorder = floor(*playerPosition) + *playerSize;
+
+        if (tileBorder % tileSize != 0 && *playerPosition + *playerSize <= tileBorder) {
+            tileBorder -= tileBorder % tileSize;
+        }
+        if (*playerPosition + *playerSize >= tileBorder) {
+            *playerPosition = tileBorder - tileSize;
+        }
+    }
+    else {
+        tileBorder = floor(*playerPosition); 
+
+        if (tileBorder % tileSize != 0 && *playerPosition >= tileBorder) {
+            tileBorder -= (tileBorder % tileSize) - tileSize;
+        }
+        if (*playerPosition <= tileBorder) {
+            *playerPosition = tileBorder;
+        }
+    }
+}
 
 void updatePlayer(playerInfo *player, float delta) {
     if (IsKeyDown(KEY_RIGHT)) {
         if (playerTileCollide(player, 1, 0)) {
-            rightTile = floor(player->playerRec.x) + player->playerRec.width;
-            if (rightTile % TILE_WIDTH != 0 && (player->playerRec.x + player->playerRec.width) <= rightTile) {
-                rightTile -= rightTile % TILE_WIDTH;
-            }
-            if (player->playerRec.x + player->playerRec.width >= rightTile) {
-                player->playerRec.x = rightTile - TILE_WIDTH;
-            }
+            rectifyPosition(&player->playerRec.x, &player->playerRec.width, 'x', 1);
         }
         else {
             player->playerRec.x += PLAYER_HOR_SPD * delta;
@@ -31,29 +47,28 @@ void updatePlayer(playerInfo *player, float delta) {
     }
     else if (IsKeyDown(KEY_LEFT)) {
         if (playerTileCollide(player, -1, 0)) {
-            leftTile = floor(player->playerRec.x);
-            if (leftTile % TILE_WIDTH != 0 && player->playerRec.x >= leftTile) {
-                leftTile -= (leftTile % TILE_WIDTH) - TILE_WIDTH;
-            }
-            if (player->playerRec.x <= leftTile) {
-                player->playerRec.x = leftTile;
-            }
+            rectifyPosition(&player->playerRec.x, &player->playerRec.width, 'x', -1);
         }
         else {
             player->playerRec.x -= PLAYER_HOR_SPD * delta;
         }
     }
-    if (IsKeyDown(KEY_UP)) 
+
+    if (IsKeyPressed(KEY_SPACE) && player->canJump == true) {
         player->playerRec.y -= PLAYER_VER_SPD * delta;
-    if (IsKeyDown(KEY_DOWN)) 
-        player->playerRec.y += PLAYER_VER_SPD * delta;
+        player->canJump = false;
+    }
+    else if (playerTileCollide(player, 0, 1)) {
+        rectifyPosition(&player->playerRec.y, &player->playerRec.height, 'y', 1);
+        player->canJump = true;
+    }
+    else { 
+        player->playerRec.y += GRAVITY * delta;
+    }
 }
 
 void drawPlayer(playerInfo *player) {
     DrawRectangleRec(player->playerRec, BLUE);
     DrawText(TextFormat("x: %0.2f", player->playerRec.x), player->playerRec.x - 8, player->playerRec.y - 20, 10, BLACK);
     DrawText(TextFormat("y: %0.2f", player->playerRec.x), player->playerRec.x - 8, player->playerRec.y - 30, 10, BLACK);
-    DrawText(TextFormat("right: %d", rightTile), player->playerRec.x - 8, player->playerRec.y - 40, 10, BLACK);
-    DrawText(TextFormat("left: %d", leftTile), player->playerRec.x - 8, player->playerRec.y - 50, 10, BLACK);
-    DrawText(TextFormat("flag: %d", flag), player->playerRec.x - 8, player->playerRec.y - 60, 10, BLACK);
 }

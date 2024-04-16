@@ -15,3 +15,4 @@ typedef struct {
 void updatePlayer(playerInfo *player, float delta);
 void startPlayer(playerInfo *player);
 void drawPlayer(playerInfo *player);
+void rectifyPosition(float *playerPosition, float *playerSize, char axis, int sign);

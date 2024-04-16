@@ -2,6 +2,7 @@
 #include "player.h"
 #include "platforms.h"
 #include "collision.h"
+#include <math.h>
 
 bool playerTileCollide(playerInfo *player, int offsetX, int offsetY) {
     int currentPlayerX = (player->playerRec.x + offsetX) / TILE_WIDTH;
